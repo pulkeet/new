@@ -1,0 +1,153 @@
+package com.example.zcamera;
+
+import java.io.BufferedWriter;
+
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.util.Log;
+
+
+public class Util {
+
+
+	static BufferedReader reader;
+	final static String TAG = "Camera";
+	static BufferedWriter buf;   
+
+
+	public static int d(String msg) {
+		return Log.d(TAG, msg);
+	}
+
+	public static int d(String msg, Throwable tr) {
+		return Log.d(TAG, msg, tr);
+	}
+
+	public static int e(String msg) {
+		return Log.e(TAG, msg);
+	}
+
+	public static int e(String msg, Throwable tr) {
+		return Log.e(TAG, msg, tr);
+	}
+
+	public static int i(String msg) {
+		return Log.i(TAG, msg);
+	}
+
+	public static int i(String msg, Throwable tr) {
+		return Log.i(TAG, msg, tr);
+	} 
+
+	@SuppressLint("SdCardPath")
+	public static void appendLog(String text)
+	{
+		File logFile = new File("sdcard/CameraLog.txt");
+		if (!logFile.exists())
+		{
+			try {
+				logFile.createNewFile();
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+		}
+		try
+		{
+			// BufferedWriter for performance, true to set append to file flag
+			BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+			buf.append(text);
+			buf.newLine();
+			//		buf.write("Time is " + LEDProject.now);
+			//		buf.newLine();
+			buf.write("Luminous value & TimeStamp " + "\n " +LEDProject.buffer);
+			buf.newLine();
+			/*buf.write("Green is " + LEDProject.sGreen);
+			buf.newLine();
+			buf.write("Blue is " + LEDProject.sBlue);
+			buf.newLine();
+			 */			
+			/*buf.write("Timestamp is" + getTimeStamp());
+			buf.newLine();
+*/
+			/*buf.write("Hue is" +LEDProject.hue_hsv);
+			buf.newLine();
+			buf.write("value is" +LEDProject.value_hsv);
+			buf.newLine();
+			if(LEDProject.value_hsv > 95.0f){
+				buf.write("LED ON");
+				buf.newLine();
+				buf.write("led on time is "+LEDProject.now );
+			}else{
+				buf.write("LED OFF");
+				buf.newLine();
+				buf.write("led of time is" + LEDProject.now2);
+				//	buf.write("TIMER  OFF :" +LEDProject.currentofftime);
+				buf.newLine();				
+			}
+
+			buf.newLine();
+
+           
+
+			 */
+
+			/*	if((LEDProject.sumRED >= 150 && LEDProject.sumGREEN >= 150) && 
+					(LEDProject.sumGREEN >= 150 && LEDProject.sumBLUE >= 150)&& 
+					(LEDProject.sumBLUE >= 150 && LEDProject.sumRED >= 150))  {
+				buf.write("LED ON");
+				buf.write("Timestamp is" + getTimeStamp());
+				buf.newLine();
+
+
+			}	else if((LEDProject.sumRED < 150 && LEDProject.sumGREEN  < 150) && 
+					(LEDProject.sumGREEN < 150 && LEDProject.sumBLUE < 150)&& 
+					(LEDProject.sumBLUE < 150 && LEDProject.sumRED < 150))	{
+
+				buf.write("LED OFF");
+				buf.write("Timestamp is" + getTimeStamp());
+				buf.newLine();
+
+			}*/
+			
+			buf.close();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}   
+	/**
+	 * @return formatted timestamp for the current date/time. e.g.
+	 *         "2011-6-30 14:19:48"
+	 */
+	public static String getTimeStamp() {
+
+		Date currentDate = new java.util.Date();
+
+		return getTimeStamp(currentDate);
+
+	}
+	/**
+	 * For unit testing
+	 * 
+	 * @param date
+	 * @return a formatted timestamp for the given date
+	 */
+	@SuppressLint("SimpleDateFormat")
+	protected static String getTimeStamp(Date date) {
+		final String format = "yyyy-M-d_HH:mm:ss:SS";
+
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		String timeStamp = simpleDateFormat.format(date);
+		return timeStamp;
+	}
+}
